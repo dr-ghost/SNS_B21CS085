@@ -140,6 +140,128 @@ begin
 	plot!(p5, w, real(Yw), label = "Y(jw)", title="Y(jw)", ylim = [-100,100])
 end
 
+# ╔═╡ 73f2cc73-f027-47cf-8826-36fc80e8aa04
+md" # Q2"
+
+# ╔═╡ 7f50b1bc-ba4b-4a30-8f8a-d00dbcf78102
+md" #### part (a)"
+
+# ╔═╡ e0727c55-6d0b-41a4-abaa-3707be1fd2b4
+begin
+	function rectangular_pulse(t, T1)
+        if t > -T1 && t < T1
+            return 1.0
+        else
+            return 0.0
+        end
+    end
+	md" generates a rectangular pulse"
+end
+
+# ╔═╡ 56500faa-cc85-4899-b885-b9fd967a6134
+begin
+	#fs = 1/100
+    #t = -10.0:fs:10.0
+    #w = -10.0:fs:10.0
+	md" tunable params"
+end
+
+# ╔═╡ e42ca555-a474-46f5-b7b3-06bc31205d91
+begin
+	x2t = rectangular_pulse.(t, 2)
+	md" generating signal"
+end
+
+# ╔═╡ 81df0143-7bbe-474e-a695-bab370efc0fa
+begin
+	p20 = plot()
+	plot!(p20, t, x2t, label = "x(t)", title = "x(t)")
+end
+
+# ╔═╡ 61b5ff57-8df1-4b80-b942-1e47856886fa
+begin
+	X2jw = fft(x2t)
+	md" Fourier transform of x(t)"
+end
+
+# ╔═╡ 7cc72115-38fa-4bad-907f-5ae0e312c712
+begin
+	function truncate_freq(Xjw, W, w)
+		Xjw_ = [i for i in Xjw]
+        Xjw_[w .> W] .= 0.0
+        Xjw_[w .< -W] .= 0.0
+        return Xjw_
+    end
+	md" function to truncate the frequency domain signal"
+end
+
+# ╔═╡ 19c27273-cc23-49f7-8341-3b730279aed1
+begin
+	X2jw_ = truncate_freq(X2jw, 10.0, w)
+	md" let us assume W = 5.0 for an example"
+end
+
+# ╔═╡ 9fdce696-e9e8-49ba-bfa0-8e7a69688c58
+for i in (X2jw_ .== X2jw)
+	if i
+		print("!")
+	end
+end
+
+# ╔═╡ 23f485d9-0ebd-4ef4-9b49-744a417d4d12
+begin
+	x2_t = ifft(X2jw_)
+	md" inverse transform of X2jw_ truncated frequency domain signal"
+end
+
+# ╔═╡ 8c2a5bb4-243c-4e94-b693-60b219d84c9a
+x2_t
+
+# ╔═╡ b196e85e-499f-4784-b0f0-0e382a198bbb
+begin
+	p21 = plot()
+	plot!(p21, t, real(x2t), label = "x(t)", title = "comparison")
+	plot!(p21, t, real(x2_t), label = "x_(t)")
+end
+
+# ╔═╡ 2b0b5558-a863-4637-8bdb-184fdd0ae0f0
+begin
+	function signal_energy(xt, W, Xjw, w)
+        Xjw_ = truncate_freq(copy(Xjw), W, w)
+        t = 0
+        for i = Xjw
+            if real(i) > 0.0
+                t+=1
+            end
+        end
+        println(W," ",t)
+        x_t = ifft(Xjw_)
+
+        et = xt - x_t
+
+        return sum(et.^2)
+    end
+end
+
+# ╔═╡ 12e93e12-9581-427c-9703-87de2dcddb53
+begin
+	W = 0.1:0.1:10
+	md" setting W = range(0.1,10,step = 0.1)"
+end
+
+# ╔═╡ 42e99064-e3f9-401c-9806-f5d119f318a1
+eplot = signal_energy.(Ref(x2t), W, Ref(X2jw), Ref(w))
+
+# ╔═╡ 7c6cb25b-01a5-4e59-b6a4-06b08ed99871
+length(eplot)
+
+# ╔═╡ ad3e3701-a519-49cf-8649-e9ef31a6644c
+begin
+	p23 = plot()
+	plot!(p23, W, real(eplot), ylim = [100,600])
+end
+	
+
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -1151,5 +1273,23 @@ version = "1.4.1+0"
 # ╠═88254b8b-04ad-49c8-8c80-564ce87a8ad3
 # ╠═b17076f4-d862-4f2d-99fd-77d9ec4ec4da
 # ╠═a17ad330-f767-4913-ad10-f88584b93912
+# ╠═73f2cc73-f027-47cf-8826-36fc80e8aa04
+# ╠═7f50b1bc-ba4b-4a30-8f8a-d00dbcf78102
+# ╠═e0727c55-6d0b-41a4-abaa-3707be1fd2b4
+# ╠═56500faa-cc85-4899-b885-b9fd967a6134
+# ╠═e42ca555-a474-46f5-b7b3-06bc31205d91
+# ╠═81df0143-7bbe-474e-a695-bab370efc0fa
+# ╠═61b5ff57-8df1-4b80-b942-1e47856886fa
+# ╠═7cc72115-38fa-4bad-907f-5ae0e312c712
+# ╠═19c27273-cc23-49f7-8341-3b730279aed1
+# ╠═9fdce696-e9e8-49ba-bfa0-8e7a69688c58
+# ╠═23f485d9-0ebd-4ef4-9b49-744a417d4d12
+# ╠═8c2a5bb4-243c-4e94-b693-60b219d84c9a
+# ╠═b196e85e-499f-4784-b0f0-0e382a198bbb
+# ╠═2b0b5558-a863-4637-8bdb-184fdd0ae0f0
+# ╠═12e93e12-9581-427c-9703-87de2dcddb53
+# ╠═42e99064-e3f9-401c-9806-f5d119f318a1
+# ╠═7c6cb25b-01a5-4e59-b6a4-06b08ed99871
+# ╠═ad3e3701-a519-49cf-8649-e9ef31a6644c
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
