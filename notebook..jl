@@ -139,6 +139,9 @@ begin
 	plot!(p5, w, real(Yw), label = "Y(jw)", title="Y(jw)", ylim = [-100,100])
 end
 
+# ╔═╡ 94c1d9e5-1bf2-4660-891f-83676916c584
+
+
 # ╔═╡ 73f2cc73-f027-47cf-8826-36fc80e8aa04
 md" # Q2"
 
@@ -181,6 +184,12 @@ end
 begin
 	X2jw = fft(x2t)
 	md" Fourier transform of x(t)"
+end
+
+# ╔═╡ c010d667-8e5b-4e52-9788-e78e09057f7f
+begin
+	p2_ = plot()
+	plot(p2_, w, real(X2jw), label = "X(jw)", title = "X2(jw)")
 end
 
 # ╔═╡ 7cc72115-38fa-4bad-907f-5ae0e312c712
@@ -285,6 +294,12 @@ begin
 	md" Fourier transform"
 end
 
+# ╔═╡ cdc9de43-7899-4998-8705-c3a9e0d27b87
+begin
+	p2__ = plot()
+	scatter!(p2__, n, real(X2ejw), label = "X[e^(jw)]" , title = "X[e^(jw)]")
+end
+
 # ╔═╡ 652ef86b-ad8d-4ec0-ab99-bb263058bae6
 begin
 	X2ejw_ = truncate_freq(X2ejw, 5.0, n)
@@ -318,6 +333,9 @@ begin
 	p26 = plot()
 	plot!(p26, N, real(eplotn))
 end
+
+# ╔═╡ 9e500a25-1e32-4d2c-8502-a7a969893d82
+md" we observe that energy of error signals decrease as we increase N or W in discrete and continuous case repectively"
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1330,6 +1348,7 @@ version = "1.4.1+0"
 # ╠═88254b8b-04ad-49c8-8c80-564ce87a8ad3
 # ╠═b17076f4-d862-4f2d-99fd-77d9ec4ec4da
 # ╠═a17ad330-f767-4913-ad10-f88584b93912
+# ╠═94c1d9e5-1bf2-4660-891f-83676916c584
 # ╠═73f2cc73-f027-47cf-8826-36fc80e8aa04
 # ╠═7f50b1bc-ba4b-4a30-8f8a-d00dbcf78102
 # ╠═e0727c55-6d0b-41a4-abaa-3707be1fd2b4
@@ -1337,6 +1356,7 @@ version = "1.4.1+0"
 # ╠═e42ca555-a474-46f5-b7b3-06bc31205d91
 # ╠═81df0143-7bbe-474e-a695-bab370efc0fa
 # ╠═61b5ff57-8df1-4b80-b942-1e47856886fa
+# ╠═c010d667-8e5b-4e52-9788-e78e09057f7f
 # ╠═7cc72115-38fa-4bad-907f-5ae0e312c712
 # ╠═19c27273-cc23-49f7-8341-3b730279aed1
 # ╠═9fdce696-e9e8-49ba-bfa0-8e7a69688c58
@@ -1353,11 +1373,13 @@ version = "1.4.1+0"
 # ╠═d030069e-cf46-44a4-b729-c16f4722ec06
 # ╠═d9ec75eb-1c6d-4ace-868b-5b0c54dc9c3f
 # ╠═914f7e46-aebf-4f62-8d87-497089538ab3
+# ╠═cdc9de43-7899-4998-8705-c3a9e0d27b87
 # ╠═652ef86b-ad8d-4ec0-ab99-bb263058bae6
 # ╠═50921735-5ec0-4179-8617-a43ab03c9cb8
 # ╠═e7fca9fa-a4eb-44cd-b2a6-1b3a28d3c4e7
 # ╠═5c43dbb8-6cb1-4524-aa70-f952fc14c093
 # ╠═b24afba4-801c-4b06-b010-be1a92651471
 # ╠═3145cffd-0c70-4891-95f7-24d36ab3b2f4
+# ╠═9e500a25-1e32-4d2c-8502-a7a969893d82
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
