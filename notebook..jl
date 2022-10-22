@@ -209,16 +209,6 @@ begin
 	md" let us assume W = 5.0 for an example"
 end
 
-# ╔═╡ 9fdce696-e9e8-49ba-bfa0-8e7a69688c58
-begin
-	for i in (X2jw_ .== X2jw)
-		if i
-			print("!")
-		end
-	end
-	X2jw_ .== X2jw
-end
-
 # ╔═╡ 23f485d9-0ebd-4ef4-9b49-744a417d4d12
 begin
 	x2_t = ifft(X2jw_)
@@ -1393,7 +1383,6 @@ version = "1.4.1+0"
 # ╠═c010d667-8e5b-4e52-9788-e78e09057f7f
 # ╠═7cc72115-38fa-4bad-907f-5ae0e312c712
 # ╠═19c27273-cc23-49f7-8341-3b730279aed1
-# ╠═9fdce696-e9e8-49ba-bfa0-8e7a69688c58
 # ╠═23f485d9-0ebd-4ef4-9b49-744a417d4d12
 # ╠═b196e85e-499f-4784-b0f0-0e382a198bbb
 # ╠═956e2e5f-fe4b-411e-a761-ce45eb8d4d2d
