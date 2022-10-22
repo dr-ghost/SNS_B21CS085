@@ -210,10 +210,13 @@ begin
 end
 
 # ╔═╡ 9fdce696-e9e8-49ba-bfa0-8e7a69688c58
-for i in (X2jw_ .== X2jw)
-	if i
-		print("!")
+begin
+	for i in (X2jw_ .== X2jw)
+		if i
+			print("!")
+		end
 	end
+	X2jw_ .== X2jw
 end
 
 # ╔═╡ 23f485d9-0ebd-4ef4-9b49-744a417d4d12
@@ -222,14 +225,32 @@ begin
 	md" inverse transform of X2jw_ truncated frequency domain signal"
 end
 
-# ╔═╡ 8c2a5bb4-243c-4e94-b693-60b219d84c9a
-x2_t
-
 # ╔═╡ b196e85e-499f-4784-b0f0-0e382a198bbb
 begin
 	p21 = plot()
 	plot!(p21, t, real(x2t), label = "x(t)", title = "comparison")
 	plot!(p21, t, real(x2_t), label = "x_(t)")
+end
+
+# ╔═╡ 956e2e5f-fe4b-411e-a761-ce45eb8d4d2d
+begin
+	et = x2t - x2_t
+	p2___ = plot()
+	plot(p2___, t, real(et), label = "e(t)", title = "error signal")
+end
+
+# ╔═╡ afb1f977-86a6-4547-8631-b839b8aa790d
+begin
+	j_ = 0
+	for i = 1:length(t)
+		if (t[i] == 2.0)
+			j_ = i
+		end
+	end
+	gibbs_over = -1 * real(et[j_ + 1])
+	gibbs_under = real(et[j_ - 1])
+	println("Overshoot : $gibbs_over")
+	println("Undershoot : $gibbs_under")
 end
 
 # ╔═╡ 2b0b5558-a863-4637-8bdb-184fdd0ae0f0
@@ -318,6 +339,19 @@ begin
 	scatter!(p25, n, real(x2n), label = "x[n]", title = "comparison")
 	scatter!(p25, n, real(x2_n), label = "x_[t]")
 end
+
+# ╔═╡ 336654e8-1dbd-4436-8ff5-43a6de663f39
+begin
+	en = x2n - x2_n
+	p2_e_ = plot()
+	scatter!(p2_e_, n, real(en), label = "e[n]", title = "error signal")
+end
+
+# ╔═╡ df7e020e-0157-44cd-955e-7f5a657ff207
+md"""
+#### Gibbs phenomena
+There is no gibbs phenomena defined for discrete time signals
+"""
 
 # ╔═╡ 5c43dbb8-6cb1-4524-aa70-f952fc14c093
 begin
@@ -1361,8 +1395,9 @@ version = "1.4.1+0"
 # ╠═19c27273-cc23-49f7-8341-3b730279aed1
 # ╠═9fdce696-e9e8-49ba-bfa0-8e7a69688c58
 # ╠═23f485d9-0ebd-4ef4-9b49-744a417d4d12
-# ╠═8c2a5bb4-243c-4e94-b693-60b219d84c9a
 # ╠═b196e85e-499f-4784-b0f0-0e382a198bbb
+# ╠═956e2e5f-fe4b-411e-a761-ce45eb8d4d2d
+# ╠═afb1f977-86a6-4547-8631-b839b8aa790d
 # ╠═2b0b5558-a863-4637-8bdb-184fdd0ae0f0
 # ╠═12e93e12-9581-427c-9703-87de2dcddb53
 # ╠═42e99064-e3f9-401c-9806-f5d119f318a1
@@ -1377,6 +1412,8 @@ version = "1.4.1+0"
 # ╠═652ef86b-ad8d-4ec0-ab99-bb263058bae6
 # ╠═50921735-5ec0-4179-8617-a43ab03c9cb8
 # ╠═e7fca9fa-a4eb-44cd-b2a6-1b3a28d3c4e7
+# ╠═336654e8-1dbd-4436-8ff5-43a6de663f39
+# ╠═df7e020e-0157-44cd-955e-7f5a657ff207
 # ╠═5c43dbb8-6cb1-4524-aa70-f952fc14c093
 # ╠═b24afba4-801c-4b06-b010-be1a92651471
 # ╠═3145cffd-0c70-4891-95f7-24d36ab3b2f4
