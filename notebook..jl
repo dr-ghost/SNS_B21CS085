@@ -38,7 +38,6 @@ end
 
 # ╔═╡ fddff866-d68c-4f4b-8d10-b16349e0be71
 begin 
-	n = 2001
 	fs = 1/100
 	wc = 10000.0
 	a = 0.75
@@ -197,7 +196,7 @@ end
 
 # ╔═╡ 19c27273-cc23-49f7-8341-3b730279aed1
 begin
-	X2jw_ = truncate_freq(X2jw, 10.0, w)
+	X2jw_ = truncate_freq(X2jw, 5.0, w)
 	md" let us assume W = 5.0 for an example"
 end
 
@@ -261,6 +260,64 @@ begin
 	plot!(p23, W, real(eplot), ylim = [100,600])
 end
 	
+
+# ╔═╡ 0a56b101-4f44-434d-9b26-51aa0800e700
+md" ### part (b)"
+
+# ╔═╡ 1afe3655-727c-4105-9cbc-c418b127a786
+n = -10.0:1.0:10
+
+# ╔═╡ d030069e-cf46-44a4-b729-c16f4722ec06
+begin
+	x2n = rectangular_pulse.(n, 2)
+	md" generating rectangular pulse"
+end
+
+# ╔═╡ d9ec75eb-1c6d-4ace-868b-5b0c54dc9c3f
+begin
+	p24 = plot()
+	scatter!(p24, n, x2n, label = "x[n]", title = "x[n]")
+end
+
+# ╔═╡ 914f7e46-aebf-4f62-8d87-497089538ab3
+begin
+	X2ejw = fft(x2n)
+	md" Fourier transform"
+end
+
+# ╔═╡ 652ef86b-ad8d-4ec0-ab99-bb263058bae6
+begin
+	X2ejw_ = truncate_freq(X2ejw, 5.0, n)
+	md" let us assume W = 5.0 again"
+end
+
+# ╔═╡ 50921735-5ec0-4179-8617-a43ab03c9cb8
+begin
+	x2_n = ifft(X2ejw_)
+	md" inverse transform of X2ejw_ truncated frequency domain signal"
+end
+
+# ╔═╡ e7fca9fa-a4eb-44cd-b2a6-1b3a28d3c4e7
+begin
+	p25 = plot()
+	scatter!(p25, n, real(x2n), label = "x[n]", title = "comparison")
+	scatter!(p25, n, real(x2_n), label = "x_[t]")
+end
+
+# ╔═╡ 5c43dbb8-6cb1-4524-aa70-f952fc14c093
+begin
+	N = 0.1:0.1:10
+	md" setting N = range(0.1,10,step = 0.1)"
+end
+
+# ╔═╡ b24afba4-801c-4b06-b010-be1a92651471
+eplotn = signal_energy.(Ref(x2n), N, Ref(X2ejw), Ref(n))
+
+# ╔═╡ 3145cffd-0c70-4891-95f7-24d36ab3b2f4
+begin
+	p26 = plot()
+	plot!(p26, N, real(eplotn))
+end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1291,5 +1348,16 @@ version = "1.4.1+0"
 # ╠═42e99064-e3f9-401c-9806-f5d119f318a1
 # ╠═7c6cb25b-01a5-4e59-b6a4-06b08ed99871
 # ╠═ad3e3701-a519-49cf-8649-e9ef31a6644c
+# ╠═0a56b101-4f44-434d-9b26-51aa0800e700
+# ╠═1afe3655-727c-4105-9cbc-c418b127a786
+# ╠═d030069e-cf46-44a4-b729-c16f4722ec06
+# ╠═d9ec75eb-1c6d-4ace-868b-5b0c54dc9c3f
+# ╠═914f7e46-aebf-4f62-8d87-497089538ab3
+# ╠═652ef86b-ad8d-4ec0-ab99-bb263058bae6
+# ╠═50921735-5ec0-4179-8617-a43ab03c9cb8
+# ╠═e7fca9fa-a4eb-44cd-b2a6-1b3a28d3c4e7
+# ╠═5c43dbb8-6cb1-4524-aa70-f952fc14c093
+# ╠═b24afba4-801c-4b06-b010-be1a92651471
+# ╠═3145cffd-0c70-4891-95f7-24d36ab3b2f4
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
