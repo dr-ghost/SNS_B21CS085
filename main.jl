@@ -21,19 +21,20 @@ function procedure_1()
     w = -10.0:fs:10.0
     t = -10.0:fs:10.0
 
-    xt = Xt(t,3)
+    xt = Xt.(t,3)
 
 
-    ut = U.(t)
+    ut = Ut.(t)
 
     function Q1(xt)
-        ht = extp.(-a * t) .* ut
+        ht = exp.(-a * t) .* ut
 
         y1 = xt .* cos.(wc * t)
         y2 = xt .* sin.(wc * t)
-        w1 = conv(y1, ht)[:2001]
-        w2 = conv(y2, ht)[:2001]
 
+        w1 = conv(y1, ht)[1:2001]
+        w2 = conv(y2, ht)[1:2001]
+        #print(w1)
         xt1 = w1 .* cos.(wc * t)
         xt2 = w2 .* sin.(wc * t)
         return y1, y2, w1, w2, xt1 + xt2
